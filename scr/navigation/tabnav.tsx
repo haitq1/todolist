@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import HomeVM from '../screens/Home/HomeVM';
+import i18n from '../localization/i18n'
 
 function HomeScreen() {
   return (
@@ -31,13 +32,13 @@ const TabNavigator = () => {
           tabBarIcon: ({focused, color, size}) => {
             let iconName;
 
-            if (route.name === 'Home') {
+            if (route.name === i18n.t('main.home')) {
               iconName = focused ? 'home' : 'home-outline';
-            } else if (route.name === 'Settings') {
+            } else if (route.name === i18n.t('main.settings')) {
               iconName = focused ? 'settings' : 'settings-outline';
-            } else if (route.name === 'Account') {
+            } else if (route.name === i18n.t('main.account')) {
               iconName = focused ? 'person' : 'person-outline';
-            } else if (route.name === 'Reward') {
+            } else if (route.name === i18n.t('main.reward')) {
               iconName = focused ? 'trophy' : 'trophy-outline';
             }
 
@@ -49,10 +50,10 @@ const TabNavigator = () => {
           activeTintColor: 'tomato',
           inactiveTintColor: 'gray',
         }}>
-        <Tab.Screen name="Home" component={HomeVM} />
-        <Tab.Screen name="Reward" component={SettingsScreen} />
-        <Tab.Screen name="Settings" component={SettingsScreen} />
-        <Tab.Screen name="Account" component={SettingsScreen} />
+        <Tab.Screen name={i18n.t('main.home')} component={HomeVM} />
+        <Tab.Screen name={i18n.t('main.reward')} component={SettingsScreen} />
+        <Tab.Screen name={i18n.t('main.settings')} component={SettingsScreen} />
+        <Tab.Screen name={i18n.t('main.account')} component={SettingsScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );

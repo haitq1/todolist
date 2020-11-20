@@ -1,11 +1,13 @@
 import React, {useState, useCallback, useMemo} from 'react';
-import {View, FlatList, AsyncStorage, Alert} from 'react-native';
+import {View, FlatList, AsyncStorage, Alert, Text} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
 import Header from '../components/Header';
 import ToDoItem from '../components/ToDoItem';
 import AddToDo from '../components/AddToDo';
 import styles from './Home.sty';
+import i18n from '../../localization/i18n';
+import { Switch } from 'react-native-switch';
 import {
   Add,
   Delete,
@@ -14,6 +16,7 @@ import {
   logout,
 } from '../../redux/actions/Home.act';
 import {number} from 'yup';
+import SwitchSelector from 'react-native-switch-selector';
 
 const useConnect = () => {
   const toDoList = useSelector((state: any) => state.home.toDoList);
@@ -77,11 +80,24 @@ const ToDoList = () => {
     },
     [onComplete],
   );
+  const options = [
+    { label: "01:00", value: "1" },
+    { label: "01:30", value: "1.5" },
+    { label: "02:00", value: "2" }
+  ];
+
   return (
     <View style={styles.container}>
       <Header submit={submit} />
       <View style={styles.content}>
         <AddToDo handleItem={handleItem} AddSubmit={AddSubmit} value={status} />
+        <View style={styles.container}>
+        <SwitchSelector
+  options={options}
+  initial={0}
+  onPress={(value: any) => console.log(`Call onPress with value: ${value}`)}
+/>
+    </View>
         <View style={styles.list}>
           <FlatList
             data={toDoList}

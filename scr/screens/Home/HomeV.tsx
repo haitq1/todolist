@@ -8,11 +8,13 @@ import AddToDo from '../components/AddToDo';
 import styles from './Home.sty';
 import i18n from '../../localization/i18n';
 import {Switch} from 'react-native-switch';
+import { useTranslation } from 'react-i18next'
 import {
   Add,
   Delete,
   Edit,
   Complete,
+  Language,
   logout,
 } from '../../redux/actions/Home.act';
 import {number} from 'yup';
@@ -30,6 +32,7 @@ const useConnect = () => {
       onRemove: (id: number) => dispatch(Delete(id)),
       onComplete: (id: number) => dispatch(Complete(id)),
       onEdit: (id: number, value2: string) => dispatch(Edit(id, value2)),
+      onLanguage: (language: string) => dispatch(Language(language)),
     }),
     [dispatch],
   );
@@ -39,7 +42,14 @@ const useConnect = () => {
   };
 };
 const ToDoList = () => {
-  const {toDoList, onAdd, onRemove, onEdit, onComplete} = useConnect();
+  const {
+    toDoList,
+    onAdd,
+    onRemove,
+    onEdit,
+    onComplete,
+    onLanguage,
+  } = useConnect();
   const [status, setStatus] = useState('');
   const [status2, setStatus2] = useState('');
   const dispatch = useDispatch();
@@ -80,56 +90,29 @@ const ToDoList = () => {
     },
     [onComplete],
   );
-  const options = [
-    {label: 'VI', value: '1'},
-    {label: 'EN', value: '2'},
-  ];
-  const [language, setLanguage] = useState<string>('vi');
-  const onSwitch = (value: any) => {
-      if (value == 1) {
-        setLanguage('vi');
-        console.log("aaaaaaaaaaaaaa");
-        console.log("aaaaaaaaa",language);
-        
-      }
-      else if (value==2) {
-        setLanguage('en');
-        console.log("aaaaaaaaaaaaaa");
-        console.log("aaaaaaaaa",language);
-      }
-  };
   return (
-    {language} && (
-      <View style={styles.container}>
-        <Header submit={submit} />
-        <View style={styles.content}>
-          <AddToDo
-            handleItem={handleItem}
-            AddSubmit={AddSubmit}
-            value={status}
+    <View style={styles.container}>
+      <Header submit={submit} />
+      <View style={styles.content}>
+        <AddToDo handleItem={handleItem} AddSubmit={AddSubmit} value={status} />
+        <View style={styles.list}>
+          <FlatList
+            data={toDoList}
+            renderItem={({item}) => (
+              <ToDoItem
+                item={item}
+                RemoveSubmit={RemoveSubmit}
+                CompleteSubmit={CompleteSubmit}
+                EditSubmit={EditSubmit}
+                value2={status2}
+                handleItem2={handleItem2}
+              />
+            )}
+            keyExtractor={(item) => item.id.toString()}
           />
-          <View style={styles.container}>
-            <SwitchSelector options={options} initial={0} onPress={onSwitch} />
-          </View>
-          <View style={styles.list}>
-            <FlatList
-              data={toDoList}
-              renderItem={({item}) => (
-                <ToDoItem
-                  item={item}
-                  RemoveSubmit={RemoveSubmit}
-                  CompleteSubmit={CompleteSubmit}
-                  EditSubmit={EditSubmit}
-                  value2={status2}
-                  handleItem2={handleItem2}
-                />
-              )}
-              keyExtractor={(item) => item.id.toString()}
-            />
-          </View>
         </View>
       </View>
-    )
+    </View>
   );
 };
 

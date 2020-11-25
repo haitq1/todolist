@@ -4,5 +4,11 @@
     "reward": "Phần thưởng",
     "settings": "Cài đặt",
     "account": "Tài khoản"
+  },
+  "header": {
+    "title": "Ghi chú"
+  },
+  "body": {
+    "add": "Thêm ghi chú"
   }
 }

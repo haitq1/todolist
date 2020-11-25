@@ -4,5 +4,11 @@
     "reward": "Reward",
     "settings": "Settings",
     "account": "Account"
+  },
+  "header": {
+    "title": "Notes"
+  },
+  "body": {
+    "add": "Add note"
   }
 }

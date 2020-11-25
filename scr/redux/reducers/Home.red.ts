@@ -7,12 +7,14 @@ interface Props {
   isAuthenticated: boolean;
   toDoList: Array<{id: number; status: string}>;
   isComplete: boolean;
+  language: string,
 }
 
 const initialState: Props = {
   isAuthenticated: false,
   toDoList: [],
   isComplete: false,
+  language: 'vi',
 };
 export const homeReducer = (state = initialState, action: any) =>
   produce(state, (draft) => {
@@ -57,6 +59,9 @@ export const homeReducer = (state = initialState, action: any) =>
       case types.COMPLETE_TODO:
         draft.isComplete = true;
         break;
+        case types.LANGUAGE:
+          draft.language = action.language;
+          break;
       default:
         return state;
     }
